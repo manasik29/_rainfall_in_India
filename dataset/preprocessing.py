@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-os.chdir(r"C:\Users\manas\OneDrive\Documents\Github\_rainfall_in_India\src\dataset")
+os.chdir(r"C:\Users\manas\OneDrive\Documents\Github\_rainfall_in_India\dataset")
 df = pd.read_excel("rainfall in india 1901-2015.xlsx")
 
 # drop grouped months
