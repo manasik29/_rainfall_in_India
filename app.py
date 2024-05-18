@@ -5,8 +5,7 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-os.chdir(r"C:\Users\manas\OneDrive\Documents\Github\_rainfall_in_India\src\dataset")
-df = pd.read_excel("processed_data.xlsx")
+df = pd.read_excel("processed_data.xlsx", index_col=False)
 
 
 def yearly_filter_data(df, start_year, end_year):
