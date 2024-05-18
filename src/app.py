@@ -6,7 +6,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 os.chdir(r"C:\Users\manas\OneDrive\Documents\Github\_rainfall_in_India\src\dataset")
-df = pd.read_excel("rainfall in india 1901-2015.xlsx")
+df = pd.read_excel("processed_data.xlsx")
 
 
 def yearly_filter_data(df, start_year, end_year):
@@ -17,7 +17,8 @@ def yearly_filter_data(df, start_year, end_year):
 def main():
     st.set_page_config(page_title="Monsoon Chronicles",
                        page_icon=":umbrella_with_rain_drops:", layout="wide")
-    st.title(":rain_cloud: Monsoon Chronicles: Unraveling India's Rainfall Story")
+    st.markdown("<h1 style='text-align: center;'>Indian Monsoon - A Deep Dive</h1>", unsafe_allow_html=True)
+    # st.title("Monsoon Chronicles: India's Rainfall Journey")
     st.markdown('<style>div.block-container{padding-top:1rem;}<style>',
                 unsafe_allow_html=True)
     st.write("""
@@ -41,10 +42,10 @@ def main():
     # Divider line between write-up and year selector
     st.markdown("<hr style='height: 1px; background-color: white;'>",
                 unsafe_allow_html=True)
-    st.write("<h4>Select the start and end year to filter the data:<h4>",
-             unsafe_allow_html=True)
+    st.sidebar.title("Slicers")
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
     # Create 2 columns for start year, end year
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.sidebar.columns([1, 1])
     # Input for start year
     with col1:
         start_year = st.number_input(":calendar: Start Year", min_value=1901,
@@ -55,11 +56,32 @@ def main():
                                    max_value=2015, step=1, value=2015)
     # Validation for start year < end year
     if start_year > end_year:
-        st.error("Start year cannot be greater than end year.")
+        st.sidebar.error("Start year cannot be greater than end year.")
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
+    subdivision = st.sidebar.multiselect(":round_pushpin: Subdivisions",
+                                         df["SUBDIVISION"].unique(),
+                                         placeholder="Multiple selections")
+    if not subdivision:
+        df2 = df.copy()
+    else:
+        df2 = df[df["SUBDIVISION"].isin(subdivision)]
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
+    seasons = st.sidebar.multiselect(":partly_sunny_rain: Seasons",
+                                     #  df.columns[-5:],
+                                     ['SPRING', 'SUMMER', 'MONSOON', 'AUTUMN',
+                                      'WINTER'],
+                                     placeholder="Multiple selections")
+    if not seasons:
+        df3 = df2.copy()
+    else:
+        df3 = df2[['SUBDIVISION', 'YEAR'] + seasons]
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
+
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
     # Execute filtering process
-    if st.button("Display Data") and start_year <= end_year:
+    if st.sidebar.button("Display Data") and start_year <= end_year:
         # Filter the DataFrame based on selected years
-        yearly_filtered_df = yearly_filter_data(df, start_year, end_year)
+        yearly_filtered_df = yearly_filter_data(df3, start_year, end_year)
         st.write(yearly_filtered_df)
 
 
