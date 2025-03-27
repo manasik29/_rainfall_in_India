@@ -15,7 +15,7 @@ def yearly_filter_data(df, start_year, end_year):
 def main():
     st.set_page_config(page_title="Monsoon Chronicles",
                        page_icon=":umbrella_with_rain_drops:", layout="wide")
-    st.markdown("<h1 style='text-align: center;'>Indian Monsoon - A Deep Dive</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; margin-top: 25px; padding: 10px;'>Indian Monsoon - A Deep Dive</h1>", unsafe_allow_html=True)
     # st.title("Monsoon Chronicles: India's Rainfall Journey")
     st.markdown('<style>div.block-container{padding-top:1rem;}<style>',
                 unsafe_allow_html=True)
